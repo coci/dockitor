@@ -3,7 +3,6 @@ package docker
 import (
 	"context"
 	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/client"
 	"strings"
 )
 
@@ -14,15 +13,6 @@ type Container struct {
 	Status string
 }
 
-// returns docker client
-func dockerClient() *client.Client {
-	cli, err := client.NewClientWithOpts(client.FromEnv)
-
-	if err != nil {
-		panic(err)
-	}
-	return cli
-}
 
 // ContainerList : Get all containers
 // it returns a list of Container structs
