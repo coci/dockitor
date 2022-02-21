@@ -1,2 +1,2 @@
-# dumitor
+# Dockitor
 Docker container monitoring
