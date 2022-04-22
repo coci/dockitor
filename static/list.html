@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Dumitor - monitor containers</title>
+
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ"
+            crossorigin="anonymous"></script>
+
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <style>
+        #first,
+        #second,
+        #third {
+            height: 5px;
+            margin: 5px 0;
+            background-color: white;
+            border-radius: 5px;
+            content: "";
+            display: block;
+        }
+
+        #first {
+            rotate: -135deg;
+            margin-top: 10px;
+        }
+
+        #second {
+            scale: 0;
+        }
+
+        #third {
+            rotate: 135deg;
+            margin-top: -20px;
+        }
+
+        button {
+            height: 45px;
+        }
+
+        #navbar-ss {
+            width: 200px;
+            height: 100vh;
+            background-color: rgb(31, 63, 143);
+        }
+
+        #nav-button {
+            border: 1px solid white;
+        }
+
+        .nav-item-css {
+            margin-bottom: -5px;
+            margin-top: -5px;
+            width: 150px;
+            color: gray;
+        }
+
+        .nav-item-css:hover {
+            border-color: rgb(29, 120, 217);
+            border-width: 0px 0px 0px 4px;
+            border-style: solid;
+
+        }
+
+        .nav-item-css:hover a {
+            color: white !important;
+        }
+
+        .nav-item-css:active {
+            border-color: rgb(211, 106, 7);
+            border-width: 0px 0px 0px 4px;
+            border-style: solid;
+        }
+
+        .nav-item-css:active a {
+            color: white !important;
+        }
+
+        .hrtitle {
+            width: 20px;
+            height: 4px;
+            background-color: rgb(29, 120, 217);
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        #menu-title {
+            font-size: 20px;
+            display: inline-block;
+            color: rgb(29, 120, 217);
+        }
+
+        #container {
+            width: 100vw -220px;
+            height: 79vh;
+            margin-left: 220px;
+            margin-top: 3vh;
+            margin-bottom: 3vh;
+            padding: 5px;
+            overflow-y: scroll;
+            overflow-wrap: break-word;
+            font-size: small;
+            background-color: rgb(234, 241, 241);
+            position: relative;
+        }
+
+        #backimg {
+            width: 35vw;
+            height: 79vh;
+            margin-left: 40vw;
+            margin-top: -80vh;
+            margin-bottom: 3vh;
+            position: absolute;
+            background-repeat: no-repeat;
+            background-size: 35vw;
+        }
+
+        #container p {
+            margin-bottom: 7px;
+        }
+
+        #button-box {
+            margin-left: 220px;
+            margin-top: 3vh;
+        }
+
+        #title-box {
+            height: 4vh;
+            padding-left: 7px;
+            border: 1px solid black;
+            width: 620px;
+            margin-left: 220px;
+            margin-top: 3vh;
+        }
+
+        svg {
+            margin-top: -3px;
+        }
+
+        #container,
+        #title-box,
+        #button-box {
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar fixed-top" id="navbar-ss">
+    <div class="container-fluid fixed-top" id="test">
+        <button type="button" id="nav-button" class="navbar-toggler mb-3 mt-3" data-bs-toggle="collapse"
+                data-bs-target="#navbar-menu" style="width: 50px;" onclick="displayMenu()">
+            <div class="nav-icon">
+                <div id="first"></div>
+                <div id="second"></div>
+                <div id="third"></div>
+            </div>
+        </button>
+        <div class="collapse show navbar-collapse ms-0" id="navbar-menu">
+            <ul class="navbar-nav ">
+                <li class="nav-item text-white">
+                    <div id="mnu-title">
+                        <div class="hrtitle"></div>
+                        <p id="menu-title">Container List</p>
+                        <div class="hrtitle"></div>
+                    </div>
+                </li>
+                {{range .}}
+                <li class="nav-item nav-item-css">
+                    <a class="nav-link text-muted ms-2" href="#" onclick="openDock('{{.Id}}')">{{.Name}}</a>
+                </li>
+                {{end}}
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="title-box">
+    <h3>It's for example</h3>
+</div>
+<div id="button-box" class="btn-group" role="group" aria-label="Basic mixed styles example">
+    <button type="button" class="btn btn-success border h-25">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-play-fill"
+             viewBox="0 0 16 16">
+            <path
+                    d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+        </svg>
+        Start
+    </button>
+    <button type="button" class="btn btn-danger border h-25">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-square-fill"
+             viewBox="0 0 16 16">
+            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2z"/>
+        </svg>
+        Stop
+    </button>
+    <button type="button" class="btn btn-danger border h-25">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-shield-fill-x" viewBox="0 0 16 16">
+            <path
+                    d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zM6.854 5.146 8 6.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 7l1.147 1.146a.5.5 0 0 1-.708.708L8 7.707 6.854 8.854a.5.5 0 1 1-.708-.708L7.293 7 6.146 5.854a.5.5 0 1 1 .708-.708z"/>
+        </svg>
+        Kill
+    </button>
+    <button type="button" class="btn btn-primary border h-25">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+            <path
+                    d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+            <path fill-rule="evenodd"
+                  d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+        </svg>
+        Restart
+    </button>
+    <button type="button" class="btn btn-primary border h-25">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-fill"
+             viewBox="0 0 16 16">
+            <path
+                    d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
+        </svg>
+        Pause
+    </button>
+    <button type="button" class="btn btn-primary border h-25">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-play-fill"
+             viewBox="0 0 16 16">
+            <path
+                    d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+        </svg>
+        Resume
+    </button>
+    <button type="button" class="btn btn-danger border h-25">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill"
+             viewBox="0 0 16 16">
+            <path
+                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+        </svg>
+        Remove
+    </button>
+</div>
+<div id="container">
+</div>
+<div id="backimg" style="background-image: url('./back.png');"></div>
+
+<script>
+    function displayMenu() {
+        if (document.getElementById("second").style.scale != 0) {
+            document.getElementById("first").style.transition = "1s"
+            document.getElementById("second").style.transition = "1s"
+            document.getElementById("third").style.transition = "1s"
+            document.getElementById("second").style.scale = "0";
+            document.getElementById("first").style.rotate = "-135deg";
+            document.getElementById("first").style.marginTop = "10px";
+            document.getElementById("third").style.rotate = "135deg";
+            document.getElementById("third").style.marginTop = "-20px";
+            document.getElementById("navbar-ss").style.width = "200px";
+            document.getElementById("container").style.width = "100vw - 220px";
+            document.getElementById("container").style.marginLeft = "220px";
+            document.getElementById("button-box").style.marginLeft = "220px";
+            document.getElementById("title-box").style.marginLeft = "220px";
+            document.getElementById("mnu-title").style.visibility = "visible";
+        } else if (document.getElementById("second").style.scale == 0) {
+            document.getElementById("second").style.scale = 1;
+            document.getElementById("first").style.transition = "1s"
+            document.getElementById("second").style.transition = "1s"
+            document.getElementById("third").style.transition = "1s"
+            document.getElementById("first").style.rotate = "0deg";
+            document.getElementById("first").style.marginTop = "5px";
+            document.getElementById("third").style.rotate = "0deg";
+            document.getElementById("third").style.marginTop = "5px";
+            document.getElementById("navbar-ss").style.width = "75px";
+            document.getElementById("container").style.width = "100vw - 90px";
+            document.getElementById("container").style.marginLeft = "90px";
+            document.getElementById("button-box").style.marginLeft = "90px";
+            document.getElementById("title-box").style.marginLeft = "90px";
+            document.getElementById("mnu-title").style.visibility = "hidden";
+        }
+    }
+
+    function openDock(id) {
+        var myDiv = document.getElementById("container");
+        myDiv.innerHTML = "";
+
+        var socket = new WebSocket("ws://127.0.0.1:8080/logs/" + id);
+
+        socket.addEventListener('message', function (event) {
+
+
+            var myDiv = document.getElementById('container');
+            var paragraph = document.createElement("p");
+            paragraph.textContent = event.data;
+            myDiv.append(paragraph);
+        });
+
+        document.getElementById("container").style.visibility = "visible";
+        document.getElementById("title-box").style.visibility = "visible";
+        document.getElementById("button-box").style.visibility = "visible";
+        document.getElementById("backimg").style.visibility = "hidden";
+    }
+</script>
+</body>
+
+</html>

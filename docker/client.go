@@ -1,15 +1,16 @@
 package docker
 
 import (
+	"fmt"
 	"github.com/docker/docker/client"
 )
 
 // returns docker client
-func dockerClient() *client.Client {
+func DockerClient() *client.Client {
 	cli, err := client.NewClientWithOpts(client.FromEnv)
 
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 	return cli
 }
