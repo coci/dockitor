@@ -42,10 +42,9 @@ func logs(w http.ResponseWriter, r *http.Request) {
 		ShowStdout: true,
 		Timestamps: false,
 		Follow:     true,
-		Tail:       "40",
+		Tail:       "500",
 	})
 
-	finalData := make([]string,1024)
 	header := make([]byte, 8)
 	for {
 		_, err := containerLog.Read(header)
@@ -58,16 +57,15 @@ func logs(w http.ResponseWriter, r *http.Request) {
 		data := make([]byte, count)
 
 		_, _ = containerLog.Read(data)
-		finalData = append(finalData,string(data))
 
-	}
-
-	for _,v := range finalData {
-		err := conn.WriteMessage(1,[]byte(v))
+		err = conn.WriteMessage(1,data)
 		if err != nil {
 			return
 		}
+
 	}
+
+
 }
 
 func main() {

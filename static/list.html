@@ -180,7 +180,7 @@
                 </li>
                 {{range .}}
                 <li class="nav-item nav-item-css">
-                    <a class="nav-link text-muted ms-2" href="#" onclick="openDock('{{.Id}}')">{{.Name}}</a>
+                    <a class="nav-link text-muted ms-2" href="#" onclick="openDock('{{.Name}}','{{.Id}}')">{{.Name}}</a>
                 </li>
                 {{end}}
             </ul>
@@ -288,9 +288,17 @@
         }
     }
 
-    function openDock(id) {
+    function openDock(name,id) {
         var myDiv = document.getElementById("container");
         myDiv.innerHTML = "";
+
+
+        var titleDiv = document.getElementById("title-box");
+        titleDiv.innerHTML = "";
+
+        var header3 = document.createElement("h3");
+        header3.textContent = name + ' - ' + id
+        titleDiv.append(header3);
 
         var socket = new WebSocket("ws://127.0.0.1:8080/logs/" + id);
 
